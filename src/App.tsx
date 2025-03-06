@@ -1,6 +1,4 @@
-import React from "react";
 import Carousel from "./Carousel";
-import useCarousel from "./Carousel/hook/use-carousel";
 
 const App = () => {
   const items = [
