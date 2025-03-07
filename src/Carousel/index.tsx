@@ -1,210 +1,132 @@
-import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { CarouselBody, CarouselContainer, CarouselWrapper } from "./styles";
+import React, { useEffect } from "react";
+import { CAROUSEL_GAP, DEFAULT_AUTOPLAY_INTERVAL } from "../constants";
+import { calculateItemWidth } from "../utils/calculations";
+import { CarouselButton } from "./components/CarouselButton";
+import { CarouselContainer } from "./components/CarouselContainer";
+import { CarouselIndicators } from "./components/CarouselIndicators";
+import { CarouselItemWrapper } from "./components/CarouselItemWrapper";
+import { useCarouselAutoplay } from "./hooks/useCarouselAutoplay";
+import { useCarouselControls } from "./hooks/useCarouselControls";
+import { useCarouselDrag } from "./hooks/useCarouselDrag";
+import { useCarouselKeyboard } from "./hooks/useCarouselKeyboard";
+import { CarouselWrapper } from "./styles";
+import { CarouselProps } from "./types";
 
-interface CarouselProps {
-  name?: string;
-  carouselWidth: number;
-  showItems: number;
-  totalItems: number;
-  children: ReactNode;
-  components?: {
-    leftIcon?: ReactNode;
-    rightIcon?: ReactNode;
-  };
-  dragSensitivity?: number;
-  snapToItem?: boolean;
-}
-
-function Carousel(props: CarouselProps) {
-  const {
-    carouselWidth,
-    showItems,
-    totalItems,
-    children,
-    name,
-    components,
-    dragSensitivity = 1.5,
-    snapToItem = true,
-  } = props;
-
-  const [dislocate, setDislocate] = useState(0);
-  const [typeChildren, setTypeChildren] = useState("");
-  const [isDragging, setIsDragging] = useState(false);
-
-  const innerCarouselRef = useRef<HTMLDivElement>(null);
-  const carouselContainerRef = useRef<HTMLDivElement>(null);
-
-  const dragInfo = useRef({
-    startX: 0,
-    startScrollLeft: 0,
-    timeStamp: 0,
-    lastX: 0,
-    velocity: 0,
-  });
-
-  const maxWidthCarousel = (totalItems * carouselWidth) / showItems;
-  const itemWidth = Number((carouselWidth / showItems).toFixed(1));
-
-  const maxDislocate = maxWidthCarousel - showItems * itemWidth;
-  const disableNext = dislocate >= maxDislocate;
-  const disabledBack = dislocate <= 0;
-
-  const snapToNearestItem = useCallback(
-    (dislocateValue: number) => {
-      if (!snapToItem) return dislocateValue;
-
-      const itemIndex = Math.round(dislocateValue / itemWidth);
-      return itemIndex * itemWidth;
-    },
-    [itemWidth, snapToItem]
+export const Carousel = ({
+  carouselWidth,
+  showItems,
+  totalItems,
+  name,
+  infinite = false,
+  autoplay = false,
+  autoplayInterval = DEFAULT_AUTOPLAY_INTERVAL,
+  showIndicators = true,
+  children,
+}: CarouselProps) => {
+  const itemWidth = calculateItemWidth(
+    typeof carouselWidth === "number" ? carouselWidth : parseInt(carouselWidth),
+    showItems
   );
 
-  const handleNext = () => {
-    if (disableNext) return;
-
-    const nextItem = Math.ceil(dislocate / itemWidth) * itemWidth + itemWidth;
-    setDislocate(Math.min(nextItem, maxDislocate));
-  };
-
-  const handleBack = () => {
-    if (disabledBack) return;
-
-    const prevItem = Math.floor(dislocate / itemWidth) * itemWidth - itemWidth;
-    setDislocate(Math.max(prevItem, 0));
-  };
-
-  const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
-    setIsDragging(true);
-    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
-
-    dragInfo.current = {
-      startX: clientX,
-      startScrollLeft: dislocate,
-      timeStamp: Date.now(),
-      lastX: clientX,
-      velocity: 0,
-    };
-
-    if (carouselContainerRef.current) {
-      carouselContainerRef.current.style.cursor = "grabbing";
-      carouselContainerRef.current.style.userSelect = "none";
-    }
-  };
-
-  const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
-    if (!isDragging) return;
-
-    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
-    const moveX = (dragInfo.current.startX - clientX) * dragSensitivity;
-
-    const now = Date.now();
-    const dt = now - dragInfo.current.timeStamp;
-    if (dt > 0) {
-      dragInfo.current.velocity =
-        ((dragInfo.current.lastX - clientX) / dt) * 15;
-      dragInfo.current.timeStamp = now;
-      dragInfo.current.lastX = clientX;
-    }
-
-    let newDislocate = dragInfo.current.startScrollLeft + moveX;
-
-    if (newDislocate < 0) {
-      newDislocate = newDislocate / 3;
-    } else if (newDislocate > maxDislocate) {
-      const overscroll = newDislocate - maxDislocate;
-      newDislocate = maxDislocate + overscroll / 3;
-    }
-
-    setDislocate(newDislocate);
-  };
-
-  const handleMouseUp = useCallback(() => {
-    if (!isDragging) return;
-    setIsDragging(false);
-
-    if (carouselContainerRef.current) {
-      carouselContainerRef.current.style.cursor = "grab";
-      carouselContainerRef.current.style.userSelect = "auto";
-    }
-
-    if (Math.abs(dragInfo.current.velocity) > 0.5) {
-      const momentumDislocate = dislocate + dragInfo.current.velocity * 20;
-      const boundedDislocate = Math.max(
-        0,
-        Math.min(momentumDislocate, maxDislocate)
-      );
-
-      const finalPosition = snapToNearestItem(boundedDislocate);
-      setDislocate(finalPosition);
-    } else {
-      setDislocate(snapToNearestItem(dislocate));
-    }
-  }, [dislocate, isDragging, maxDislocate, snapToNearestItem]);
+  const { dislocate, setDislocate, handleNext, handleBack, forceReset } =
+    useCarouselControls(totalItems, showItems, itemWidth);
 
   useEffect(() => {
-    if (innerCarouselRef.current) {
-      const transitionDuration = isDragging ? "0ms" : "350ms";
-      innerCarouselRef.current.style.transform = `translateX(-${dislocate}px)`;
-      innerCarouselRef.current.style.transition = `transform ${transitionDuration}`;
-    }
-  }, [dislocate, innerCarouselRef, isDragging]);
+    forceReset();
+  }, [totalItems, showItems, itemWidth, carouselWidth, forceReset]);
 
-  useEffect(() => {
-    if (innerCarouselRef.current) {
-      setTypeChildren(innerCarouselRef.current?.children[0].localName);
-    }
-  }, [innerCarouselRef]);
+  const calculateMaxDislocate = () => {
+    return Math.max(0, (totalItems - showItems) * (itemWidth + CAROUSEL_GAP));
+  };
 
-  useEffect(() => {
-    const handleGlobalMouseUp = () => {
-      if (isDragging) {
-        handleMouseUp();
-      }
-    };
+  const isFirstSlide = dislocate === 0;
+  const isLastSlide = dislocate >= calculateMaxDislocate();
 
-    window.addEventListener("mouseup", handleGlobalMouseUp);
-    window.addEventListener("touchend", handleGlobalMouseUp);
+  useCarouselAutoplay(
+    autoplay,
+    autoplayInterval,
+    handleNext,
+    infinite,
+    isLastSlide
+  );
 
-    return () => {
-      window.removeEventListener("mouseup", handleGlobalMouseUp);
-      window.removeEventListener("touchend", handleGlobalMouseUp);
-    };
-  }, [handleMouseUp, isDragging]);
+  const {
+    handleDragStart,
+    handleDragMove,
+    handleDragEnd,
+    isDragging,
+    dragOffset,
+  } = useCarouselDrag(
+    setDislocate,
+    itemWidth,
+    totalItems,
+    showItems,
+    CAROUSEL_GAP
+  );
 
-  if (!innerCarouselRef) return <></>;
+  useCarouselKeyboard(handleNext, handleBack);
+
+  const currentIndex = Math.round(
+    dislocate / ((itemWidth + CAROUSEL_GAP) * showItems)
+  );
+
+  const totalPages = Math.ceil((totalItems - showItems + 1) / showItems);
+
+  const wrappedChildren = React.Children.map(children, (child) => (
+    <CarouselItemWrapper width={itemWidth}>{child}</CarouselItemWrapper>
+  ));
 
   return (
-    <CarouselWrapper>
-      <button onClick={handleBack} disabled={disabledBack}>
-        {components?.leftIcon || <FaChevronLeft />}
-      </button>
-      <CarouselContainer
-        ref={carouselContainerRef}
-        width={carouselWidth}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-        onTouchStart={handleMouseDown}
-        onTouchMove={handleMouseMove}
-        onTouchEnd={handleMouseUp}
+    <div>
+      <CarouselWrapper
+        role="region"
+        aria-label={`Carousel ${name || ""}`}
+        onMouseLeave={handleDragEnd}
       >
-        <CarouselBody
-          ref={innerCarouselRef}
-          id={`carousel-${name}`}
-          width={maxWidthCarousel}
-          itemWidth={itemWidth}
-          typeChildren={typeChildren}
+        <CarouselButton
+          direction="left"
+          onClick={handleBack}
+          disabled={!infinite && isFirstSlide}
+        />
+        <CarouselContainer
+          width={carouselWidth}
+          dislocate={dislocate}
+          dragOffset={dragOffset}
+          isDragging={isDragging}
+          onMouseDown={(e) => {
+            e.preventDefault();
+            handleDragStart(e, dislocate);
+          }}
+          onMouseMove={(e) => {
+            e.preventDefault();
+            handleDragMove(e);
+          }}
+          onMouseUp={handleDragEnd}
+          onTouchStart={(e) => handleDragStart(e, dislocate)}
+          onTouchMove={(e) => {
+            e.preventDefault();
+            handleDragMove(e);
+          }}
+          onTouchEnd={handleDragEnd}
         >
-          {children}
-        </CarouselBody>
-      </CarouselContainer>
-      <button onClick={handleNext}>
-        {components?.rightIcon || <FaChevronRight />}{" "}
-      </button>
-    </CarouselWrapper>
+          {wrappedChildren}
+        </CarouselContainer>
+        <CarouselButton
+          direction="right"
+          onClick={handleNext}
+          disabled={!infinite && isLastSlide}
+        />
+      </CarouselWrapper>
+      {showIndicators && totalPages > 1 && (
+        <CarouselIndicators
+          totalItems={totalPages}
+          showItems={1}
+          currentIndex={currentIndex}
+          onSelect={(index) =>
+            setDislocate(index * (itemWidth + CAROUSEL_GAP) * showItems)
+          }
+        />
+      )}
+    </div>
   );
-}
-
-export default Carousel;
+};
