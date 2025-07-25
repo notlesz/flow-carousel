@@ -141,6 +141,8 @@ const App = () => {
         Produtos em Destaque
       </h1>
 
+      {}
+
       <Carousel
         carouselWidth={900}
         showItems={4}
