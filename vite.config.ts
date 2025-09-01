@@ -4,12 +4,28 @@ import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
 
 export default defineConfig({
-  plugins: [react(), dts()],
+  plugins: [
+    react(),
+    dts({
+      include: [
+        "src/index.ts",
+        "src/Carousel/**/*",
+        "src/constants/**/*",
+        "src/utils/**/*",
+      ],
+      exclude: [
+        "src/App.tsx",
+        "src/LandingPage.tsx",
+        "src/main.tsx",
+        "src/**/*.module.scss",
+      ],
+    }),
+  ],
   build: {
     lib: {
       entry: "src/index.ts",
-      name: "MinhaBibliotecaReact",
-      fileName: (format) => `minha-biblioteca-react.${format}.js`,
+      name: "FlowCarousel",
+      fileName: (format) => `flow-carousel.${format}.js`,
     },
     rollupOptions: {
       external: ["react", "react-dom"],
