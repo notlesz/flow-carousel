@@ -384,13 +384,13 @@ function App() {
 
         <div className={styles.cta}>
           <a
-            href="https://github.com/yourorg/flow-carousel"
+            href="https://github.com/notlesz/flow-carousel"
             className={`${styles.ctaButton} ${styles.primary}`}
           >
             📚 View Documentation
           </a>
           <a
-            href="https://github.com/yourorg/flow-carousel/issues"
+            href="https://github.com/notlesz/flow-carousel/issues"
             className={`${styles.ctaButton} ${styles.secondary}`}
           >
             💬 Get Support
@@ -401,10 +401,10 @@ function App() {
       {/* Footer */}
       <footer className={styles.footer}>
         <div className={styles.footerLinks}>
-          <a href="https://github.com/yourorg/flow-carousel">GitHub</a>
+          <a href="https://github.com/notlesz/flow-carousel">GitHub</a>
           <a href="https://npmjs.com/package/flow-carousel">NPM</a>
-          <a href="https://github.com/yourorg/flow-carousel/issues">Issues</a>
-          <a href="https://github.com/yourorg/flow-carousel/blob/main/LICENSE">
+          <a href="https://github.com/notlesz/flow-carousel/issues">Issues</a>
+          <a href="https://github.com/notlesz/flow-carousel/blob/main/LICENSE">
             License
           </a>
         </div>
