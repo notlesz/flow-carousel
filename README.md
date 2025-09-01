@@ -17,7 +17,7 @@ Um componente de carousel **verdadeiramente inteligente** e de **alta performanc
 
 Experimente o FlowCarousel ao vivo:
 
-- 🚀 **[Demo Online](https://notlesz.github.io/flow-carousel)** - Veja todas as funcionalidades
+- 🚀 **[Demo Online](https://flow-carousel.vercel.app)** - Veja todas as funcionalidades
 - 📱 **Teste a responsividade** - Redimensione a tela para ver a adaptação automática
 - ⌨️ **Navegação por teclado** - Use as setas, Home e End para navegar
 
