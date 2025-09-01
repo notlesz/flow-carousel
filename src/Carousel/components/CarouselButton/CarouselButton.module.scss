@@ -7,79 +7,149 @@
 .button {
   position: relative;
   z-index: z("buttons");
+  
+  // Base button styles
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-user-select: none;
+  
+  // Base size (will be overridden by specific sizes)
+  min-width: 40px;
+  min-height: 40px;
+  
+  // Background and effects
+  background-color: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  
+  // Transitions
+  transition: all var(--transition-duration, 300ms) var(--transition-easing, ease-in-out);
 
-  @include carousel-button-base;
-  @include carousel-transition;
-  @include backdrop-blur(4px, 0.1);
-  @include scale-hover(1.05);
-  @include scale-active(0.95);
-
-  // Size calculation based on prop
-  &[data-size] {
-    --button-size: attr(data-size px, 40px);
-    --padding-size: max(8px, calc(var(--button-size) * 0.2));
-    --icon-size: max(16px, calc(var(--button-size) * 0.4));
-
-    padding: var(--padding-size);
-    min-width: var(--button-size);
-    min-height: var(--button-size);
+  // Focus styles
+  &:focus-visible {
+    outline: 2px solid var(--carousel-focus-color, #007bff);
+    outline-offset: 2px;
   }
 
+  // Touch device optimizations
   @include touch-device {
-    min-width: var(--carousel-button-mobile-size);
-    min-height: var(--carousel-button-mobile-size);
-    background-color: var(--carousel-mobile-bg);
+    min-width: 44px;
+    min-height: 44px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.15);
   }
 
+  // Disabled state
   &:disabled {
-    background-color: var(--carousel-bg-disabled);
+    cursor: not-allowed;
+    background-color: rgba(0, 0, 0, 0.05);
 
     .icon {
       opacity: 0.3;
     }
   }
 
+  // Hover effects for devices that support it
   @include hover-device {
     &:hover:not(:disabled) {
-      background-color: var(--carousel-bg-overlay-hover);
+      background-color: rgba(0, 0, 0, 0.2);
+      transform: scale(1.05);
     }
+  }
+
+  // Active state
+  &:active:not(:disabled) {
+    transform: scale(0.95);
   }
 }
 
 .icon {
   opacity: 1;
-  color: var(--carousel-text-primary);
-  @include carousel-transition(opacity);
-
+  color: rgba(255, 255, 255, 0.9);
+  transition: opacity var(--transition-duration, 300ms) var(--transition-easing, ease-in-out);
+  
   // Default icon size
   width: 16px;
   height: 16px;
+  
+  // Ensure icon is centered
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  // Responsive icon sizing
-  @include respond-to("sm") {
+// Size variants - different button and icon sizes
+.button[data-size="32"] {
+  min-width: 32px;
+  min-height: 32px;
+  padding: 6px;
+  
+  .icon {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+.button[data-size="36"] {
+  min-width: 36px;
+  min-height: 36px;
+  padding: 7px;
+  
+  .icon {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.button[data-size="40"] {
+  min-width: 40px;
+  min-height: 40px;
+  padding: 8px;
+  
+  .icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.button[data-size="44"] {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 9px;
+  
+  .icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.button[data-size="48"] {
+  min-width: 48px;
+  min-height: 48px;
+  padding: 10px;
+  
+  .icon {
     width: 20px;
     height: 20px;
   }
 }
 
-// Size variants using CSS custom properties
-.button[data-size="32"] .icon {
-  width: 13px;
-  height: 13px;
-}
-.button[data-size="36"] .icon {
-  width: 14px;
-  height: 14px;
-}
-.button[data-size="40"] .icon {
-  width: 16px;
-  height: 16px;
-}
-.button[data-size="44"] .icon {
-  width: 18px;
-  height: 18px;
-}
-.button[data-size="48"] .icon {
-  width: 19px;
-  height: 19px;
+// Responsive adjustments
+@include respond-to("sm") {
+  .button {
+    min-width: 36px;
+    min-height: 36px;
+    padding: 8px;
+  }
+  
+  .icon {
+    width: 14px;
+    height: 14px;
+  }
 }
