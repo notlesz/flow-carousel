@@ -5,7 +5,9 @@ export const useCarouselDrag = (
   itemWidth: number,
   totalItems: number,
   showItems: number,
-  gap: number
+  gap: number,
+  enableMomentum = true,
+  swipeThreshold = 50
 ) => {
   const dragStartRef = useRef<number | null>(null);
   const startDislocateRef = useRef(0);
@@ -89,12 +91,45 @@ export const useCarouselDrag = (
 
     const totalWidth = itemWidth + gap;
     const currentPosition = startDislocateRef.current + dragOffset;
-
-    const nearestItem = Math.round(currentPosition / totalWidth) * totalWidth;
-
     const maxDislocate = Math.max(0, totalItems - showItems) * totalWidth;
-    const finalPosition = Math.max(0, Math.min(maxDislocate, nearestItem));
 
+    // Check for swipe gesture
+    const dragDistance = Math.abs(dragOffset);
+    const isDragSwipe = dragDistance > swipeThreshold;
+    const isQuickSwipe = Math.abs(dragVelocity.current) > 0.5 && isDragSwipe;
+
+    let finalPosition: number;
+
+    if (enableMomentum && isQuickSwipe) {
+      // Momentum-based scrolling for quick swipes
+      const direction = dragOffset > 0 ? 1 : -1;
+      const momentumDistance = Math.min(
+        totalWidth * 2, // Max 2 items momentum
+        Math.abs(dragVelocity.current) * 200 // Velocity-based distance
+      );
+
+      const momentumTarget = currentPosition + direction * momentumDistance;
+      const snappedTarget =
+        Math.round(momentumTarget / totalWidth) * totalWidth;
+      finalPosition = Math.max(0, Math.min(maxDislocate, snappedTarget));
+    } else if (isDragSwipe) {
+      // Standard swipe - move to next/prev item
+      const direction = dragOffset > 0 ? 1 : -1;
+      const currentItemIndex = Math.round(
+        startDislocateRef.current / totalWidth
+      );
+      const targetIndex = Math.max(
+        0,
+        Math.min(totalItems - showItems, currentItemIndex + direction)
+      );
+      finalPosition = targetIndex * totalWidth;
+    } else {
+      // Snap to nearest item (original behavior)
+      const nearestItem = Math.round(currentPosition / totalWidth) * totalWidth;
+      finalPosition = Math.max(0, Math.min(maxDislocate, nearestItem));
+    }
+
+    // Reset drag state
     dragStartRef.current = null;
     lastDragPosition.current = null;
     dragVelocity.current = 0;
@@ -104,7 +139,16 @@ export const useCarouselDrag = (
       setIsDragging(false);
       setDragOffset(0);
     });
-  }, [dragOffset, itemWidth, gap, totalItems, showItems, setDislocate]);
+  }, [
+    dragOffset,
+    itemWidth,
+    gap,
+    totalItems,
+    showItems,
+    setDislocate,
+    enableMomentum,
+    swipeThreshold,
+  ]);
 
   return {
     handleDragStart,
