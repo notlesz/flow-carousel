@@ -47,5 +47,3 @@ dist/main.d.ts
 !dist/Carousel/
 !dist/constants/
 !dist/utils/
-
-DEPLOY.md
