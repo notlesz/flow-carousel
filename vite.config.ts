@@ -6,19 +6,16 @@ import dts from "vite-plugin-dts";
 export default defineConfig({
   plugins: [
     react(),
+    // TypeScript declarations generation - simplified approach
     dts({
-      include: [
-        "src/index.ts",
-        "src/Carousel/**/*",
-        "src/constants/**/*",
-        "src/utils/**/*",
-      ],
+      entryRoot: "src",
       exclude: [
         "src/App.tsx",
-        "src/LandingPage.tsx",
+        "src/LandingPage.tsx", 
         "src/main.tsx",
-        "src/**/*.module.scss",
+        "**/*.module.scss",
       ],
+      insertTypesEntry: true,
     }),
   ],
   build: {

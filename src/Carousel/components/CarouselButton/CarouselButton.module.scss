@@ -7,7 +7,7 @@
 .button {
   position: relative;
   z-index: z("buttons");
-  
+
   // Base button styles
   border: none;
   border-radius: 50%;
@@ -18,18 +18,19 @@
   justify-content: center;
   user-select: none;
   -webkit-user-select: none;
-  
+
   // Base size (will be overridden by specific sizes)
   min-width: 40px;
   min-height: 40px;
-  
+
   // Background and effects
   background-color: rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  
+
   // Transitions
-  transition: all var(--transition-duration, 300ms) var(--transition-easing, ease-in-out);
+  transition: all var(--transition-duration, 300ms)
+    var(--transition-easing, ease-in-out);
 
   // Focus styles
   &:focus-visible {
@@ -72,12 +73,13 @@
 .icon {
   opacity: 1;
   color: rgba(255, 255, 255, 0.9);
-  transition: opacity var(--transition-duration, 300ms) var(--transition-easing, ease-in-out);
-  
+  transition: opacity var(--transition-duration, 300ms)
+    var(--transition-easing, ease-in-out);
+
   // Default icon size
   width: 16px;
   height: 16px;
-  
+
   // Ensure icon is centered
   display: flex;
   align-items: center;
@@ -89,7 +91,7 @@
   min-width: 32px;
   min-height: 32px;
   padding: 6px;
-  
+
   .icon {
     width: 12px;
     height: 12px;
@@ -100,7 +102,7 @@
   min-width: 36px;
   min-height: 36px;
   padding: 7px;
-  
+
   .icon {
     width: 14px;
     height: 14px;
@@ -111,7 +113,7 @@
   min-width: 40px;
   min-height: 40px;
   padding: 8px;
-  
+
   .icon {
     width: 16px;
     height: 16px;
@@ -122,7 +124,7 @@
   min-width: 44px;
   min-height: 44px;
   padding: 9px;
-  
+
   .icon {
     width: 18px;
     height: 18px;
@@ -133,7 +135,7 @@
   min-width: 48px;
   min-height: 48px;
   padding: 10px;
-  
+
   .icon {
     width: 20px;
     height: 20px;
@@ -147,7 +149,7 @@
     min-height: 36px;
     padding: 8px;
   }
-  
+
   .icon {
     width: 14px;
     height: 14px;
