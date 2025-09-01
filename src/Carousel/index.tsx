@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
-import { CAROUSEL_GAP, DEFAULT_AUTOPLAY_INTERVAL } from "../constants";
-import { calculateItemWidth } from "../utils/calculations";
+import React, { useEffect, useRef } from "react";
+import { DEFAULT_AUTOPLAY_INTERVAL } from "../constants";
 import { CarouselButton } from "./components/CarouselButton";
 import { CarouselContainer } from "./components/CarouselContainer";
 import { CarouselIndicators } from "./components/CarouselIndicators";
@@ -9,12 +8,19 @@ import { useCarouselAutoplay } from "./hooks/useCarouselAutoplay";
 import { useCarouselControls } from "./hooks/useCarouselControls";
 import { useCarouselDrag } from "./hooks/useCarouselDrag";
 import { useCarouselKeyboard } from "./hooks/useCarouselKeyboard";
-import { CarouselWrapper } from "./styles";
+import { useResponsiveCarousel } from "./hooks/useResponsiveCarousel";
+import styles from "./Carousel.module.scss";
 import { CarouselProps } from "./types";
 
 export const Carousel = ({
+  // New responsive API
+  responsive,
+
+  // Legacy props (backward compatibility)
   carouselWidth,
-  showItems,
+  showItems: legacyShowItems,
+
+  // Core props
   totalItems,
   name,
   infinite = false,
@@ -22,21 +28,67 @@ export const Carousel = ({
   autoplayInterval = DEFAULT_AUTOPLAY_INTERVAL,
   showIndicators = true,
   children,
-}: CarouselProps) => {
-  const itemWidth = calculateItemWidth(
-    typeof carouselWidth === "number" ? carouselWidth : parseInt(carouselWidth),
-    showItems
-  );
 
-  const { dislocate, setDislocate, handleNext, handleBack, forceReset } =
-    useCarouselControls(totalItems, showItems, itemWidth);
+  // Enhanced props
+  ariaLabel,
+  ariaDescribedBy,
+  enableMomentum = true,
+  swipeThreshold = 50,
+}: CarouselProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Use responsive hook for modern responsive behavior
+  const {
+    containerWidth,
+    showItems: responsiveShowItems,
+    gap,
+    buttonSize,
+    itemWidth,
+    calculateItemWidth,
+    isReady,
+  } = useResponsiveCarousel(containerRef, responsive);
+
+  // Fallback to legacy props if no responsive config
+  const finalShowItems = responsive
+    ? responsiveShowItems
+    : legacyShowItems || 4;
+
+  // Calculate item width considering infinite mode for preview
+  const finalItemWidth = responsive
+    ? calculateItemWidth(infinite)
+    : carouselWidth
+    ? ((typeof carouselWidth === "number"
+        ? carouselWidth
+        : parseInt(carouselWidth)) -
+        gap * (finalShowItems - 1)) /
+      finalShowItems
+    : itemWidth;
+
+  const {
+    dislocate,
+    setDislocate,
+    handleNext,
+    handleBack,
+    goToFirst,
+    goToLast,
+    forceReset,
+  } = useCarouselControls(totalItems, finalShowItems, finalItemWidth, infinite);
 
   useEffect(() => {
-    forceReset();
-  }, [totalItems, showItems, itemWidth, carouselWidth, forceReset]);
+    if (isReady) {
+      forceReset();
+    }
+  }, [
+    totalItems,
+    finalShowItems,
+    finalItemWidth,
+    containerWidth,
+    forceReset,
+    isReady,
+  ]);
 
   const calculateMaxDislocate = () => {
-    return Math.max(0, (totalItems - showItems) * (itemWidth + CAROUSEL_GAP));
+    return Math.max(0, (totalItems - finalShowItems) * (finalItemWidth + gap));
   };
 
   const isFirstSlide = dislocate === 0;
@@ -58,38 +110,96 @@ export const Carousel = ({
     dragOffset,
   } = useCarouselDrag(
     setDislocate,
-    itemWidth,
+    finalItemWidth,
     totalItems,
-    showItems,
-    CAROUSEL_GAP
+    finalShowItems,
+    gap,
+    enableMomentum,
+    swipeThreshold
   );
 
-  useCarouselKeyboard(handleNext, handleBack);
-
-  const currentIndex = Math.round(
-    dislocate / ((itemWidth + CAROUSEL_GAP) * showItems)
+  useCarouselKeyboard(
+    handleNext,
+    handleBack,
+    containerRef,
+    goToFirst,
+    goToLast
   );
 
-  const totalPages = Math.ceil((totalItems - showItems + 1) / showItems);
+  // Input validation (after all hooks to follow rules of hooks)
+  if (totalItems <= 0) {
+    console.warn("Carousel: totalItems must be greater than 0");
+    return null;
+  }
 
-  const wrappedChildren = React.Children.map(children, (child) => (
-    <CarouselItemWrapper width={itemWidth}>{child}</CarouselItemWrapper>
+  if (!children) {
+    console.warn("Carousel: children is required");
+    return null;
+  }
+
+  const childrenArray = React.Children.toArray(children);
+  if (childrenArray.length !== totalItems) {
+    console.warn(
+      `Carousel: Expected ${totalItems} children but received ${childrenArray.length}`
+    );
+  }
+
+  // Validate autoplay interval
+  if (autoplayInterval < 100) {
+    console.warn("Carousel: autoplayInterval should be at least 100ms");
+  }
+
+  // Validate swipe threshold
+  if (swipeThreshold < 0) {
+    console.warn("Carousel: swipeThreshold cannot be negative");
+  }
+
+  // Calcula o índice atual baseado em quantos itens movemos
+  const currentIndex = Math.round(dislocate / (finalItemWidth + gap));
+
+  // Número total de posições possíveis no carousel
+  const totalPages = Math.max(1, totalItems - finalShowItems + 1);
+
+  const wrappedChildren = React.Children.map(children, (child, index) => (
+    <CarouselItemWrapper width={finalItemWidth} key={index}>
+      {child}
+    </CarouselItemWrapper>
   ));
 
+  // Don't render if not ready (prevents layout shift)
+  if (!isReady && responsive) {
+    return (
+      <div
+        ref={containerRef}
+        className={styles.wrapper}
+        data-loading="true"
+        aria-label="Carousel loading..."
+      />
+    );
+  }
+
   return (
-    <div>
-      <CarouselWrapper
+    <div ref={containerRef}>
+      <div
+        className={styles.wrapper}
         role="region"
-        aria-label={`Carousel ${name || ""}`}
+        aria-label={ariaLabel || `Carousel ${name || ""}`}
+        aria-describedby={ariaDescribedBy}
+        aria-live="polite"
+        aria-atomic="false"
         onMouseLeave={handleDragEnd}
       >
         <CarouselButton
           direction="left"
           onClick={handleBack}
           disabled={!infinite && isFirstSlide}
+          size={buttonSize}
+          ariaLabel={`Go to previous ${
+            finalShowItems > 1 ? "group of items" : "item"
+          }`}
         />
         <CarouselContainer
-          width={carouselWidth}
+          width={responsive ? containerWidth : carouselWidth}
           dislocate={dislocate}
           dragOffset={dragOffset}
           isDragging={isDragging}
@@ -102,7 +212,10 @@ export const Carousel = ({
             handleDragMove(e);
           }}
           onMouseUp={handleDragEnd}
-          onTouchStart={(e) => handleDragStart(e, dislocate)}
+          onTouchStart={(e) => {
+            e.preventDefault();
+            handleDragStart(e, dislocate);
+          }}
           onTouchMove={(e) => {
             e.preventDefault();
             handleDragMove(e);
@@ -115,18 +228,39 @@ export const Carousel = ({
           direction="right"
           onClick={handleNext}
           disabled={!infinite && isLastSlide}
+          size={buttonSize}
+          ariaLabel={`Go to next ${
+            finalShowItems > 1 ? "group of items" : "item"
+          }`}
         />
-      </CarouselWrapper>
-      {showIndicators && totalPages > 1 && (
+      </div>
+      {showIndicators && !infinite && totalPages > 1 && (
         <CarouselIndicators
           totalItems={totalPages}
           showItems={1}
           currentIndex={currentIndex}
-          onSelect={(index) =>
-            setDislocate(index * (itemWidth + CAROUSEL_GAP) * showItems)
-          }
+          onSelect={(index) => setDislocate(index * (finalItemWidth + gap))}
         />
       )}
+
+      {/* Screen reader announcements */}
+      <div
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
+        style={{
+          position: "absolute",
+          left: "-10000px",
+          width: "1px",
+          height: "1px",
+          overflow: "hidden",
+        }}
+      >
+        {`Showing items ${currentIndex + 1} to ${Math.min(
+          currentIndex + finalShowItems,
+          totalItems
+        )} of ${totalItems}. Page ${currentIndex + 1} of ${totalPages}.`}
+      </div>
     </div>
   );
 };
