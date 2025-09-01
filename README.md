@@ -11,36 +11,36 @@
 
 </div>
 
-Um componente de carousel **verdadeiramente inteligente** e de **alta performance** para React, com preview automático, responsividade nativa e arquitetura SCSS moderna.
+A **truly intelligent** and **high-performance** React carousel component with automatic preview, native responsiveness, and modern SCSS architecture.
 
 ## 🎯 Demo
 
-Experimente o FlowCarousel ao vivo:
+Experience FlowCarousel live:
 
-- 🚀 **[Demo Online](https://flow-carousel.vercel.app)** - Veja todas as funcionalidades
-- 📱 **Teste a responsividade** - Redimensione a tela para ver a adaptação automática
-- ⌨️ **Navegação por teclado** - Use as setas, Home e End para navegar
+- 🚀 **[Live Demo](https://flow-carousel.vercel.app)** - See all features in action
+- 📱 **Test responsiveness** - Resize your screen to see automatic adaptation
+- ⌨️ **Keyboard navigation** - Use arrows, Home and End to navigate
 
-## ✨ Diferenciais Únicos
+## ✨ Unique Features
 
-- **📱 100% Responsivo**: Breakpoints automáticos que se adaptam a qualquer tela
-- **🎯 Gestos Avançados**: Momentum scrolling, swipe inteligente e física realística
-- **♿ Acessibilidade Completa**: ARIA, navegação por teclado e screen readers
-- **⚡ Performance Otimizada**: 60fps com requestAnimationFrame
-- **🛡️ Anti-Spam**: Sistema inteligente que previne bugs de múltiplos clicks
-- **📐 Auto-Width**: Largura automática baseada no container pai
+- **📱 100% Responsive**: Automatic breakpoints that adapt to any screen
+- **🎯 Advanced Gestures**: Momentum scrolling, intelligent swipe and realistic physics
+- **♿ Complete Accessibility**: ARIA, keyboard navigation and screen readers
+- **⚡ Optimized Performance**: 60fps with requestAnimationFrame
+- **🛡️ Anti-Spam**: Intelligent system that prevents multiple-click bugs
+- **📐 Auto-Width**: Automatic width based on parent container
 
-## 🚀 Instalação
+## 🚀 Installation
 
 ```bash
 npm install flow-carousel
-# ou
+# or
 yarn add flow-carousel
 ```
 
-## 📖 Uso Básico
+## 📖 Basic Usage
 
-### Modo Responsivo (Recomendado)
+### Responsive Mode (Recommended)
 
 ```tsx
 import { Carousel } from "flow-carousel";
@@ -48,17 +48,17 @@ import "flow-carousel/style.css";
 
 function App() {
   const items = [
-    /* seus itens */
+    /* your items */
   ];
 
   return (
     <Carousel
       responsive={{
         xs: { showItems: 1, gap: 8 }, // Mobile: 1 item
-        sm: { showItems: 2, gap: 12 }, // Tablet: 2 itens
-        md: { showItems: 3, gap: 16 }, // Desktop pequeno: 3 itens
-        lg: { showItems: 4, gap: 20 }, // Desktop: 4 itens
-        xl: { showItems: 5, gap: 24 }, // Desktop grande: 5 itens
+        sm: { showItems: 2, gap: 12 }, // Tablet: 2 items
+        md: { showItems: 3, gap: 16 }, // Small desktop: 3 items
+        lg: { showItems: 4, gap: 20 }, // Desktop: 4 items
+        xl: { showItems: 5, gap: 24 }, // Large desktop: 5 items
       }}
       totalItems={items.length}
       infinite
@@ -73,7 +73,7 @@ function App() {
 }
 ```
 
-### Modo Legacy (Compatibilidade)
+### Legacy Mode (Compatibility)
 
 ```tsx
 <Carousel carouselWidth={800} showItems={4} totalItems={items.length}>
@@ -83,13 +83,13 @@ function App() {
 </Carousel>
 ```
 
-## 🎛️ Props Disponíveis
+## 🎛️ Available Props
 
-### Configuração Responsiva
+### Responsive Configuration
 
-| Prop         | Tipo               | Descrição                               |
-| ------------ | ------------------ | --------------------------------------- |
-| `responsive` | `ResponsiveConfig` | Configuração de breakpoints automáticos |
+| Prop         | Type               | Description                   |
+| ------------ | ------------------ | ----------------------------- |
+| `responsive` | `ResponsiveConfig` | Automatic breakpoint configuration |
 
 ```tsx
 interface ResponsiveConfig {
@@ -106,38 +106,38 @@ interface ResponsiveConfig {
 }
 ```
 
-### Props Principais
+### Main Props
 
-| Prop               | Tipo      | Padrão          | Descrição                  |
-| ------------------ | --------- | --------------- | -------------------------- |
-| `totalItems`       | `number`  | **obrigatório** | Número total de itens      |
-| `infinite`         | `boolean` | `false`         | Loop infinito              |
-| `autoplay`         | `boolean` | `false`         | Reprodução automática      |
-| `autoplayInterval` | `number`  | `3000`          | Intervalo do autoplay (ms) |
-| `showIndicators`   | `boolean` | `true`          | Mostrar indicadores        |
+| Prop               | Type      | Default      | Description                  |
+| ------------------ | --------- | ------------ | ---------------------------- |
+| `totalItems`       | `number`  | **required** | Total number of items        |
+| `infinite`         | `boolean` | `false`      | Infinite loop                |
+| `autoplay`         | `boolean` | `false`      | Automatic playback           |
+| `autoplayInterval` | `number`  | `3000`       | Autoplay interval (ms)       |
+| `showIndicators`   | `boolean` | `true`       | Show indicators              |
 
-### Props de Gestos e Interação
+### Gesture & Interaction Props
 
-| Prop             | Tipo      | Padrão | Descrição                    |
-| ---------------- | --------- | ------ | ---------------------------- |
-| `enableMomentum` | `boolean` | `true` | Momentum scrolling           |
-| `swipeThreshold` | `number`  | `50`   | Limite para reconhecer swipe |
+| Prop             | Type      | Default | Description                |
+| ---------------- | --------- | ------- | -------------------------- |
+| `enableMomentum` | `boolean` | `true`  | Momentum scrolling         |
+| `swipeThreshold` | `number`  | `50`    | Swipe recognition threshold |
 
-### Props de Acessibilidade
+### Accessibility Props
 
-| Prop              | Tipo     | Descrição                   |
-| ----------------- | -------- | --------------------------- |
-| `ariaLabel`       | `string` | Label para screen readers   |
-| `ariaDescribedBy` | `string` | ID do elemento de descrição |
+| Prop              | Type     | Description               |
+| ----------------- | -------- | ------------------------- |
+| `ariaLabel`       | `string` | Label for screen readers  |
+| `ariaDescribedBy` | `string` | ID of description element |
 
-### Props Legacy (Compatibilidade)
+### Legacy Props (Compatibility)
 
-| Prop            | Tipo     | Descrição                        |
-| --------------- | -------- | -------------------------------- |
-| `carouselWidth` | `number` | Largura fixa (não recomendado)   |
-| `showItems`     | `number` | Itens visíveis (não recomendado) |
+| Prop            | Type     | Description                         |
+| --------------- | -------- | ----------------------------------- |
+| `carouselWidth` | `number` | Fixed width (not recommended)       |
+| `showItems`     | `number` | Visible items (not recommended)     |
 
-## 🎨 Breakpoints Padrão
+## 🎨 Default Breakpoints
 
 ```tsx
 const DEFAULT_BREAKPOINTS = {
@@ -149,9 +149,9 @@ const DEFAULT_BREAKPOINTS = {
 };
 ```
 
-## 🎯 Exemplos Avançados
+## 🎯 Advanced Examples
 
-### E-commerce com Produtos
+### E-commerce with Products
 
 ```tsx
 <Carousel
@@ -161,7 +161,7 @@ const DEFAULT_BREAKPOINTS = {
     lg: { showItems: 4, gap: 20 },
   }}
   totalItems={products.length}
-  ariaLabel="Vitrine de produtos"
+  ariaLabel="Product showcase"
   enableMomentum
   swipeThreshold={60}
 >
@@ -175,7 +175,7 @@ const DEFAULT_BREAKPOINTS = {
 </Carousel>
 ```
 
-### Galeria de Imagens
+### Image Gallery
 
 ```tsx
 <Carousel
@@ -187,7 +187,7 @@ const DEFAULT_BREAKPOINTS = {
   infinite
   autoplay
   autoplayInterval={5000}
-  ariaLabel="Galeria de fotos"
+  ariaLabel="Photo gallery"
 >
   {images.map((image) => (
     <img key={image.id} src={image.url} alt={image.alt} />
@@ -195,30 +195,30 @@ const DEFAULT_BREAKPOINTS = {
 </Carousel>
 ```
 
-## ♿ Acessibilidade
+## ♿ Accessibility
 
-O carousel inclui suporte completo a acessibilidade:
+The carousel includes complete accessibility support:
 
-- **ARIA**: Labels, live regions e atomic updates
-- **Teclado**: Setas, Home, End, PageUp, PageDown
-- **Screen Readers**: Anúncios de mudanças de estado
-- **Focus Management**: Navegação lógica por tab
-- **Touch Targets**: Botões com tamanho mínimo de 44px
+- **ARIA**: Labels, live regions and atomic updates
+- **Keyboard**: Arrows, Home, End, PageUp, PageDown
+- **Screen Readers**: State change announcements
+- **Focus Management**: Logical tab navigation
+- **Touch Targets**: Buttons with minimum 44px size
 
-### Navegação por Teclado
+### Keyboard Navigation
 
-| Tecla      | Ação          |
+| Key        | Action        |
 | ---------- | ------------- |
-| `←` `↑`    | Item anterior |
-| `→` `↓`    | Próximo item  |
-| `Home`     | Primeiro item |
-| `End`      | Último item   |
-| `PageUp`   | Item anterior |
-| `PageDown` | Próximo item  |
+| `←` `↑`    | Previous item |
+| `→` `↓`    | Next item     |
+| `Home`     | First item    |
+| `End`      | Last item     |
+| `PageUp`   | Previous item |
+| `PageDown` | Next item     |
 
-## 🎨 Customização
+## 🎨 Customization
 
-### Breakpoints Customizados
+### Custom Breakpoints
 
 ```tsx
 <Carousel
@@ -229,11 +229,11 @@ O carousel inclui suporte completo a acessibilidade:
   }}
   totalItems={items.length}
 >
-  {/* conteúdo */}
+  {/* content */}
 </Carousel>
 ```
 
-### Ícones Customizados
+### Custom Icons
 
 ```tsx
 <Carousel
@@ -241,15 +241,15 @@ O carousel inclui suporte completo a acessibilidade:
     leftIcon: <CustomLeftIcon />,
     rightIcon: <CustomRightIcon />,
   }}
-  // outras props...
+  // other props...
 >
-  {/* conteúdo */}
+  {/* content */}
 </Carousel>
 ```
 
-## 🔧 API de Hooks
+## 🔧 Hook API
 
-Para uso avançado, você pode usar os hooks internos:
+For advanced usage, you can use internal hooks:
 
 ```tsx
 import { useResponsiveCarousel } from "flow-carousel";
@@ -263,94 +263,94 @@ function CustomCarousel() {
       lg: { showItems: 4 },
     });
 
-  // sua implementação personalizada
+  // your custom implementation
 }
 ```
 
 ## 📊 Performance
 
-### 🏆 Métricas Reais
+### 🏆 Real Metrics
 
 - **Bundle ES**: 18.4 KB (5.74 KB gzipped)
 - **Bundle UMD**: 12.7 KB (4.84 KB gzipped)
 - **CSS**: 6.98 KB (1.61 KB gzipped)
-- **Total**: ~18 KB - **63% menor** que outros carousels
+- **Total**: ~18 KB - **63% smaller** than other carousels
 
-### ⚡ Otimizações
+### ⚡ Optimizations
 
-- **60fps** garantido com `requestAnimationFrame`
-- **Zero layout shifts** com loading states
-- **Memory leak protection** com cleanup automático
-- **ResizeObserver** para detecção eficiente de mudanças
-- **Drag optimization** com throttling inteligente
-- **Tree-shaking** habilitado (`sideEffects: false`)
+- **60fps** guaranteed with `requestAnimationFrame`
+- **Zero layout shifts** with loading states
+- **Memory leak protection** with automatic cleanup
+- **ResizeObserver** for efficient change detection
+- **Drag optimization** with intelligent throttling
+- **Tree-shaking** enabled (`sideEffects: false`)
 
-## 🆚 Comparação com Outros Carousels
+## 🆚 Comparison with Other Carousels
 
-| Recurso                   | Este Carousel | Swiper.js | React Slick |
-| ------------------------- | ------------- | --------- | ----------- |
-| Responsividade automática | ✅            | ❌        | ❌          |
-| Física realística         | ✅            | ❌        | ❌          |
-| Performance 60fps         | ✅            | ✅        | ❌          |
-| Zero dependências         | ✅            | ❌        | ❌          |
-| TypeScript nativo         | ✅            | ✅        | ❌          |
-| Acessibilidade completa   | ✅            | ⚠️        | ⚠️          |
-| Bundle size               | ~18kb         | ~150kb    | ~45kb       |
+| Feature                   | FlowCarousel | Swiper.js | React Slick |
+| ------------------------- | ------------ | --------- | ----------- |
+| Automatic responsiveness  | ✅           | ❌        | ❌          |
+| Realistic physics         | ✅           | ❌        | ❌          |
+| 60fps performance         | ✅           | ✅        | ❌          |
+| Zero dependencies         | ✅           | ❌        | ❌          |
+| Native TypeScript         | ✅           | ✅        | ❌          |
+| Complete accessibility    | ✅           | ⚠️        | ⚠️          |
+| Bundle size               | ~18kb        | ~150kb    | ~45kb       |
 
-## 🐛 Solução de Problemas
+## 🐛 Troubleshooting
 
-### Carousel não aparece
+### Carousel doesn't appear
 
-- Verifique se `totalItems` está correto
-- Certifique-se que há itens em `children`
+- Check if `totalItems` is correct
+- Make sure there are items in `children`
 
-### Items não se adaptam
+### Items don't adapt
 
-- Use `responsive` ao invés de `carouselWidth`
-- Verifique se o container pai tem largura definida
+- Use `responsive` instead of `carouselWidth`
+- Check if parent container has defined width
 
-### Gestos não funcionam no mobile
+### Gestures don't work on mobile
 
-- Certifique-se que `enableMomentum` está habilitado
-- Ajuste `swipeThreshold` conforme necessário
+- Make sure `enableMomentum` is enabled
+- Adjust `swipeThreshold` as needed
 
 ## 📝 Changelog
 
 ### v1.0.0 - Initial Release
 
-- ✨ Sistema de breakpoints automáticos e responsividade nativa
-- ✨ Momentum scrolling e gestos avançados com física realística
-- ✨ Acessibilidade completa (ARIA, navegação por teclado)
-- ✨ Performance otimizada (60fps, requestAnimationFrame)
-- ✨ Anti-spam protection e validação robusta
-- ✨ Arquitetura SCSS moderna com CSS Modules
-- ✨ TypeScript nativo com documentação JSDoc completa
-- ✨ Bundle ultra-compacto (~18KB total)
+- ✨ Automatic breakpoint system and native responsiveness
+- ✨ Momentum scrolling and advanced gestures with realistic physics
+- ✨ Complete accessibility (ARIA, keyboard navigation)
+- ✨ Optimized performance (60fps, requestAnimationFrame)
+- ✨ Anti-spam protection and robust validation
+- ✨ Modern SCSS architecture with CSS Modules
+- ✨ Native TypeScript with complete JSDoc documentation
+- ✨ Ultra-compact bundle (~18KB total)
 
-## 🤝 Contribuição
+## 🤝 Contributing
 
-Contribuições são bem-vindas! Abra uma [issue](https://github.com/notlesz/flow-carousel/issues) ou faça um [pull request](https://github.com/notlesz/flow-carousel/pulls).
+Contributions are welcome! Open an [issue](https://github.com/notlesz/flow-carousel/issues) or submit a [pull request](https://github.com/notlesz/flow-carousel/pulls).
 
-## 🎯 Por Que FlowCarousel?
+## 🎯 Why FlowCarousel?
 
 <div align="center">
 
-### **O carousel mais completo e otimizado do mercado React**
+### **The most complete and optimized carousel in the React ecosystem**
 
-| 🏆 **Vantagem**           | 📊 **Valor**              | 💡 **Benefício**                  |
-| ------------------------- | ------------------------- | --------------------------------- |
-| **Bundle Ultra-compacto** | 18 KB total               | 63% menor que concorrentes        |
-| **Performance Premium**   | 60fps garantido           | UX suave em qualquer device       |
-| **Acessibilidade Total**  | WCAG 2.1 AA               | Inclusivo para todos os usuários  |
-| **Zero Dependências**     | Apenas React              | Sem bloat, máxima compatibilidade |
-| **TypeScript Nativo**     | 100% tipado               | DX excepcional com IntelliSense   |
-| **Responsividade Real**   | 5 breakpoints automáticos | Funciona em qualquer tela         |
+| 🏆 **Advantage**          | 📊 **Value**              | 💡 **Benefit**                   |
+| ------------------------- | ------------------------- | -------------------------------- |
+| **Ultra-compact Bundle**  | 18 KB total               | 63% smaller than competitors     |
+| **Premium Performance**   | 60fps guaranteed          | Smooth UX on any device          |
+| **Total Accessibility**   | WCAG 2.1 AA               | Inclusive for all users          |
+| **Zero Dependencies**     | React only                | No bloat, maximum compatibility  |
+| **Native TypeScript**     | 100% typed                | Exceptional DX with IntelliSense |
+| **Real Responsiveness**   | 5 automatic breakpoints   | Works on any screen              |
 
-**FlowCarousel não é apenas um carousel - é uma solução completa de UX** 🚀
+**FlowCarousel isn't just a carousel - it's a complete UX solution** 🚀
 
 </div>
 
-## 📄 Licença
+## 📄 License
 
 MIT © [Elton Souza](https://github.com/notlesz)
 
@@ -358,6 +358,6 @@ MIT © [Elton Souza](https://github.com/notlesz)
 
 <div align="center">
 
-**⭐ Se este projeto te ajudou, considere dar uma estrela!** ⭐
+**⭐ If this project helped you, consider giving it a star!** ⭐
 
 </div>
