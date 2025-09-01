@@ -11,7 +11,7 @@ export default defineConfig({
       entryRoot: "src",
       exclude: [
         "src/App.tsx",
-        "src/LandingPage.tsx", 
+        "src/LandingPage.tsx",
         "src/main.tsx",
         "**/*.module.scss",
       ],
