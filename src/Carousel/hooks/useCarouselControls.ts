@@ -4,7 +4,8 @@ import { CAROUSEL_GAP, TRANSITION_DURATION } from "../../constants";
 export const useCarouselControls = (
   totalItems: number,
   showItems: number,
-  itemWidth: number
+  itemWidth: number,
+  infinite = false
 ) => {
   const [dislocate, setDislocate] = useState(0);
   const isAnimatingRef = useRef(false);
@@ -67,12 +68,18 @@ export const useCarouselControls = (
     requestAnimationFrame(() => {
       setDislocate((prev) => {
         const nextPosition = prev + moveAmount;
-        const newPosition = nextPosition > maxDislocate ? 0 : nextPosition;
-        resetAnimation();
-        return newPosition;
+        if (nextPosition > maxDislocate) {
+          // Se infinite, volta ao início. Se não, para no máximo
+          const newPosition = infinite ? 0 : maxDislocate;
+          resetAnimation();
+          return newPosition;
+        } else {
+          resetAnimation();
+          return nextPosition;
+        }
       });
     });
-  }, [itemWidth, calculateMaxDislocate, resetAnimation]);
+  }, [itemWidth, calculateMaxDislocate, resetAnimation, infinite]);
 
   const handleBack = useCallback(() => {
     if (isAnimatingRef.current) return;
@@ -91,12 +98,18 @@ export const useCarouselControls = (
     requestAnimationFrame(() => {
       setDislocate((prev) => {
         const nextPosition = prev - moveAmount;
-        const newPosition = nextPosition < 0 ? maxDislocate : nextPosition;
-        resetAnimation();
-        return newPosition;
+        if (nextPosition < 0) {
+          // Se infinite, vai para o final. Se não, para no início
+          const newPosition = infinite ? maxDislocate : 0;
+          resetAnimation();
+          return newPosition;
+        } else {
+          resetAnimation();
+          return nextPosition;
+        }
       });
     });
-  }, [itemWidth, calculateMaxDislocate, resetAnimation]);
+  }, [itemWidth, calculateMaxDislocate, resetAnimation, infinite]);
 
   const forceReset = useCallback(() => {
     isAnimatingRef.current = false;
@@ -109,11 +122,39 @@ export const useCarouselControls = (
     });
   }, []);
 
+  const goToFirst = useCallback(() => {
+    if (isAnimatingRef.current) return;
+
+    isAnimatingRef.current = true;
+    lastInteractionTime.current = Date.now();
+
+    requestAnimationFrame(() => {
+      setDislocate(0);
+      resetAnimation();
+    });
+  }, [resetAnimation]);
+
+  const goToLast = useCallback(() => {
+    if (isAnimatingRef.current) return;
+
+    isAnimatingRef.current = true;
+    lastInteractionTime.current = Date.now();
+
+    const maxDislocate = calculateMaxDislocate();
+
+    requestAnimationFrame(() => {
+      setDislocate(maxDislocate);
+      resetAnimation();
+    });
+  }, [calculateMaxDislocate, resetAnimation]);
+
   return {
     dislocate,
     setDislocate: safeSetDislocate,
     handleNext,
     handleBack,
+    goToFirst,
+    goToLast,
     forceReset,
   };
 };
