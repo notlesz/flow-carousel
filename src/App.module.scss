@@ -1,0 +1,173 @@
+// =============================================================================
+// APP - Demo Application Styles
+// =============================================================================
+
+@use "./styles/abstracts" as *;
+
+.container {
+  max-width: 1400px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 60px;
+  color: #333;
+}
+
+.section {
+  margin-bottom: 80px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.sectionTitle {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.sectionDescription {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #666;
+  font-size: 14px;
+}
+
+// Product Card Component
+.productCard {
+  padding: 16px;
+  border-radius: var(--border-radius-md);
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 300px;
+  margin: 10px;
+  @include carousel-transition;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+}
+
+.productImage {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: var(--border-radius-sm);
+  margin-bottom: 12px;
+}
+
+.productTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: #333;
+}
+
+.productPrice {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2ecc71;
+  margin-bottom: 12px;
+}
+
+.productDescription {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  text-align: center;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+.buyButton {
+  background: #2ecc71;
+  color: white;
+  border: none;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  margin-top: auto;
+  @include carousel-transition;
+  font-weight: 500;
+
+  @include hover-device {
+    &:hover {
+      background: #27ae60;
+      transform: translateY(-1px);
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  @include focus-visible;
+}
+
+// Simple Card Component
+.simpleCard {
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: var(--border-radius-md);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  @include carousel-transition;
+
+  &:hover {
+    background: #e9ecef;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  h3 {
+    margin: 0 0 10px 0;
+    color: #444;
+  }
+
+  p {
+    margin: 0;
+    color: #666;
+  }
+}
+
+// Features Section
+.featuresSection {
+  margin-top: 100px;
+  padding: 40px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.featuresTitle {
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  text-align: left;
+}
+
+.featureItem {
+  h4 {
+    margin: 0 0 8px 0;
+    color: #333;
+  }
+
+  p {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+  }
+}

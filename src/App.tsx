@@ -1,69 +1,5 @@
-import styled from "styled-components";
 import { Carousel } from "./Carousel";
-
-const ProductCard = styled.div`
-  padding: 16px;
-  border-radius: 8px;
-  background: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 300px;
-  margin: 10px;
-`;
-
-const ProductImage = styled.img`
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 4px;
-  margin-bottom: 12px;
-`;
-
-const ProductTitle = styled.h3`
-  font-size: 16px;
-  font-weight: 600;
-  margin: 0 0 8px 0;
-  color: #333;
-`;
-
-const ProductPrice = styled.span`
-  font-size: 20px;
-  font-weight: 700;
-  color: #2ecc71;
-  margin-bottom: 12px;
-`;
-
-const ProductDescription = styled.p`
-  font-size: 14px;
-  color: #666;
-  margin: 0;
-  text-align: center;
-`;
-
-const BuyButton = styled.button`
-  background: #2ecc71;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: auto;
-  transition: background 0.2s;
-
-  &:hover {
-    background: #27ae60;
-  }
-`;
-
-const SimpleCard = styled.div`
-  padding: 20px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  text-align: center;
-`;
+import styles from "./LandingPage.module.scss";
 
 const App = () => {
   const items = [
@@ -72,6 +8,9 @@ const App = () => {
     { id: 3, nome: "Pedro", sobrenome: "Oliveira" },
     { id: 4, nome: "Ana", sobrenome: "Souza" },
     { id: 5, nome: "Lucas", sobrenome: "Ferreira" },
+    { id: 6, nome: "Carlos", sobrenome: "Lima" },
+    { id: 7, nome: "Beatriz", sobrenome: "Costa" },
+    { id: 8, nome: "Rafael", sobrenome: "Almeida" },
   ];
 
   const products = [
@@ -110,6 +49,27 @@ const App = () => {
       image: "https://picsum.photos/200/200?random=5",
       description: 'Tablet com tela 10.5" e suporte a caneta',
     },
+    {
+      id: 6,
+      title: "Mouse Gamer",
+      price: 149.99,
+      image: "https://picsum.photos/200/200?random=6",
+      description: "Mouse óptico com 12.000 DPI e RGB",
+    },
+    {
+      id: 7,
+      title: "Teclado Mecânico",
+      price: 399.99,
+      image: "https://picsum.photos/200/200?random=7",
+      description: "Teclado mecânico com switches blue",
+    },
+    {
+      id: 8,
+      title: "Monitor 4K",
+      price: 1299.99,
+      image: "https://picsum.photos/200/200?random=8",
+      description: "Monitor 27 polegadas 4K HDR",
+    },
   ];
 
   const handleBuy = (productId: number) => {
@@ -117,56 +77,131 @@ const App = () => {
   };
 
   return (
-    <div style={{ maxWidth: "1200px", margin: "40px auto", padding: "0 20px" }}>
-      <h1 style={{ textAlign: "center", marginBottom: "40px", color: "#333" }}>
-        Carousel Simples
-      </h1>
+    <div className={styles.container}>
+      <h1 className={styles.title}>🎠 Carousel Responsivo - Nova Geração</h1>
 
-      <Carousel
-        carouselWidth={600}
-        showItems={4}
-        totalItems={items.length}
-        name="simple-carousel"
-        // infinite
-      >
-        {items.map(({ id, nome, sobrenome }) => (
-          <SimpleCard key={id}>
-            <h3 style={{ margin: "0 0 10px 0", color: "#444" }}>{nome}</h3>
-            <p style={{ margin: 0, color: "#666" }}>{sobrenome}</p>
-          </SimpleCard>
-        ))}
-      </Carousel>
+      {/* Demonstração do modo responsivo automático */}
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>
+          📱 Carousel Totalmente Responsivo
+        </h2>
+        <p className={styles.sectionDescription}>
+          Redimensione a janela para ver a adaptação automática!
+        </p>
 
-      <h1 style={{ textAlign: "center", margin: "60px 0 40px", color: "#333" }}>
-        Produtos em Destaque
-      </h1>
+        <Carousel
+          responsive={{
+            xs: { showItems: 1, gap: 8 }, // Mobile: 1 item
+            sm: { showItems: 2, gap: 12 }, // Tablet: 2 itens
+            md: { showItems: 3, gap: 16 }, // Desktop: 3 itens (padrão)
+            lg: { showItems: 3, gap: 20 }, // Desktop: 3 itens (padrão)
+            xl: { showItems: 3, gap: 24 }, // Desktop grande: 3 itens (padrão)
+          }}
+          totalItems={items.length}
+          name="responsive-people"
+          infinite={false}
+          autoplay
+          autoplayInterval={4000}
+          ariaLabel="Carousel padrão com 3 itens por página"
+          enableMomentum
+          swipeThreshold={40}
+        >
+          {items.map(({ id, nome, sobrenome }) => (
+            <div key={id} className={styles.simpleCard}>
+              <h3>{nome}</h3>
+              <p>{sobrenome}</p>
+            </div>
+          ))}
+        </Carousel>
+      </section>
 
-      {}
+      {/* Demonstração de produtos com configuração personalizada */}
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>
+          🛍️ Vitrine de Produtos (Modo Infinito)
+        </h2>
+        <p className={styles.sectionDescription}>
+          Com preview do próximo item e navegação infinita
+        </p>
 
-      <Carousel
-        carouselWidth={900}
-        showItems={4}
-        totalItems={products.length}
-        name="products-carousel"
-        // infinite
-      >
-        {products.map((product) => (
-          <ProductCard key={product.id}>
-            <ProductImage src={product.image} alt={product.title} />
-            <ProductTitle>{product.title}</ProductTitle>
-            <ProductPrice>
-              {product.price.toLocaleString("pt-BR", {
-                style: "currency",
-                currency: "BRL",
-              })}
-            </ProductPrice>
-            <ProductDescription>{product.description}</ProductDescription>
-            <BuyButton onClick={() => handleBuy(product.id)}>
-              Comprar Agora
-            </BuyButton>
-          </ProductCard>
-        ))}
-      </Carousel>
+        <Carousel
+          responsive={{
+            xs: { showItems: 1, gap: 10, buttonSize: 40 },
+            sm: { showItems: 2, gap: 15, buttonSize: 42 },
+            md: { showItems: 3, gap: 18, buttonSize: 44 }, // 3 itens + preview
+            lg: { showItems: 3, gap: 20, buttonSize: 46 }, // 3 itens + preview
+            xl: { showItems: 3, gap: 24, buttonSize: 48 }, // 3 itens + preview
+          }}
+          totalItems={products.length}
+          name="products-showcase"
+          infinite={true}
+          ariaLabel="Vitrine infinita de produtos com preview"
+          enableMomentum
+          swipeThreshold={60}
+        >
+          {products.map((product) => (
+            <div key={product.id} className={styles.productCard}>
+              <img
+                className={styles.productImage}
+                src={product.image}
+                alt={product.title}
+                loading="lazy"
+              />
+              <h3 className={styles.productTitle}>{product.title}</h3>
+              <span className={styles.productPrice}>
+                {product.price.toLocaleString("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                })}
+              </span>
+              <p className={styles.productDescription}>{product.description}</p>
+              <button
+                className={styles.buyButton}
+                onClick={() => handleBuy(product.id)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    handleBuy(product.id);
+                  }
+                }}
+              >
+                Comprar Agora
+              </button>
+            </div>
+          ))}
+        </Carousel>
+      </section>
+
+      {/* Seção de recursos */}
+      <section className={styles.featuresSection}>
+        <h3 className={styles.featuresTitle}>✨ Recursos da Nova Versão</h3>
+        <div className={styles.featuresGrid}>
+          <div className={styles.featureItem}>
+            <h4>📱 Totalmente Responsivo</h4>
+            <p>Padrão 3 itens por página, adapta-se a qualquer tela</p>
+          </div>
+          <div className={styles.featureItem}>
+            <h4>🔄 Modo Infinito Inteligente</h4>
+            <p>Preview parcial do próximo item, sem indicadores</p>
+          </div>
+          <div className={styles.featureItem}>
+            <h4>🎯 Gestos Avançados</h4>
+            <p>Momentum scrolling e swipe inteligente</p>
+          </div>
+          <div className={styles.featureItem}>
+            <h4>♿ Acessibilidade</h4>
+            <p>ARIA completo e navegação por teclado (Home/End)</p>
+          </div>
+          <div className={styles.featureItem}>
+            <h4>⚡ Performance</h4>
+            <p>60fps com requestAnimationFrame</p>
+          </div>
+          <div className={styles.featureItem}>
+            <h4>🎛️ Controle Intuitivo</h4>
+            <p>Indicadores automáticos ou navegação livre</p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

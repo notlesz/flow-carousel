@@ -1,0 +1,473 @@
+// =============================================================================
+// FLOWCAROUSEL LANDING PAGE - Modern Presentation
+// =============================================================================
+
+@use "./styles/abstracts" as *;
+
+// ----------------------------------------
+// Global Landing Page Styles
+// ----------------------------------------
+.page {
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    #0f1419 0%,
+    #1a2332 25%,
+    #2c3e50 50%,
+    #34495e 75%,
+    #1a1a2e 100%
+  );
+  background-attachment: fixed;
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+}
+
+// ----------------------------------------
+// Hero Section
+// ----------------------------------------
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(68, 140, 196, 0.15) 0%,
+      rgba(26, 35, 50, 0.3) 30%,
+      transparent 70%
+    );
+  }
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 3s ease infinite;
+
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+}
+
+.tagline {
+  font-size: clamp(1.2rem, 4vw, 2rem);
+  font-weight: 300;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+  font-style: italic;
+}
+
+.subtitle {
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  margin-bottom: 3rem;
+  line-height: 1.6;
+  opacity: 0.8;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 4rem;
+}
+
+.ctaButton {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &.primary {
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+    }
+  }
+
+  &.secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+// ----------------------------------------
+// Performance Metrics
+// ----------------------------------------
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+  padding: 0 2rem;
+}
+
+.metric {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  @include carousel-transition;
+
+  &:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15);
+  }
+}
+
+.metricValue {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #4ecdc4;
+  margin-bottom: 0.5rem;
+}
+
+.metricLabel {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin-bottom: 0.5rem;
+}
+
+.metricDescription {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+// ----------------------------------------
+// Content Sections
+// ----------------------------------------
+.section {
+  padding: 6rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  &.dark {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(20px);
+    margin: 4rem 0;
+    border-radius: 30px;
+  }
+}
+
+.sectionTitle {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1rem;
+
+  .highlight {
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+.sectionSubtitle {
+  font-size: clamp(1rem, 3vw, 1.3rem);
+  text-align: center;
+  opacity: 0.8;
+  margin-bottom: 4rem;
+  line-height: 1.6;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// ----------------------------------------
+// Feature Grid
+// ----------------------------------------
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin: 4rem 0;
+}
+
+.featureCard {
+  padding: 2.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  @include carousel-transition;
+
+  &:hover {
+    transform: translateY(-8px);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.featureIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.featureTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #4ecdc4;
+}
+
+.featureDescription {
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+// ----------------------------------------
+// Demo Section
+// ----------------------------------------
+.demoSection {
+  background: rgb(255, 255, 255);
+  color: #333;
+  border-radius: 30px;
+  padding: 4rem 2rem;
+  margin: 4rem auto;
+  max-width: 1200px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+}
+
+.demoTitle {
+  color: #333;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.demoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 3rem;
+  align-items: start;
+}
+
+.demoCard {
+  background: transparent;
+  border-radius: 15px;
+  padding: 2rem;
+  border: none;
+}
+
+.demoCardTitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 1rem;
+}
+
+.demoCardDescription {
+  color: #6c757d;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+// ----------------------------------------
+// Code Section
+// ----------------------------------------
+.codeSection {
+  background: rgba(15, 20, 25, 0.6);
+  border: 1px solid rgba(68, 140, 196, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 3rem;
+  margin: 4rem 0;
+}
+
+.codeBlock {
+  background: #1e1e1e;
+  border-radius: 10px;
+  padding: 2rem;
+  overflow-x: auto;
+  font-family: "SF Mono", Monaco, "Cascadia Code", monospace;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #d4d4d4;
+
+  .keyword {
+    color: #569cd6;
+  }
+  .string {
+    color: #ce9178;
+  }
+  .comment {
+    color: #6a9955;
+  }
+  .property {
+    color: #9cdcfe;
+  }
+  .number {
+    color: #b5cea8;
+  }
+}
+
+// ----------------------------------------
+// Installation Section
+// ----------------------------------------
+.installSection {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: rgba(15, 20, 25, 0.4);
+  border: 1px solid rgba(68, 140, 196, 0.1);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  margin: 4rem 0;
+}
+
+.installCommand {
+  background: rgba(10, 15, 20, 0.7);
+  padding: 1.5rem 2rem;
+  border-radius: 10px;
+  font-family: monospace;
+  font-size: 1.1rem;
+  margin: 2rem auto;
+  max-width: 400px;
+  border: 1px solid rgba(68, 140, 196, 0.3);
+  color: #4ecdc4;
+}
+
+// ----------------------------------------
+// Footer
+// ----------------------------------------
+.footer {
+  text-align: center;
+  padding: 4rem 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 6rem;
+  opacity: 0.8;
+}
+
+.footerLinks {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+
+  a {
+    color: #4ecdc4;
+    text-decoration: none;
+    @include carousel-transition;
+
+    &:hover {
+      color: #ff6b6b;
+    }
+  }
+}
+
+// ----------------------------------------
+// Responsive Design
+// ----------------------------------------
+@include respond-to("md") {
+  .hero {
+    min-height: 80vh;
+    padding: 1rem;
+  }
+
+  .metrics {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .featuresGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .demoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .cta {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+// ----------------------------------------
+// Animations
+// ----------------------------------------
+.fadeInUp {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.8s ease forwards;
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+.floating {
+  animation: floating 3s ease-in-out infinite;
+
+  @keyframes floating {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+}
