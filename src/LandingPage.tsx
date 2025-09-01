@@ -217,49 +217,70 @@ const LandingPage = () => {
           <div className={styles.demoCard}>
             <h3 className={styles.demoCardTitle}>🏢 Team Showcase</h3>
             <p className={styles.demoCardDescription}>
-              Standard responsive mode with 3 items per page. Notice the clean
-              indicators and smooth transitions.
+              Responsive carousel that adapts automatically: 1 item on mobile, 2 on tablet, 3 on desktop. Notice the clean indicators and smooth transitions.
             </p>
             <Carousel
               responsive={{
-                xs: { showItems: 1, gap: 10 },
-                sm: { showItems: 2, gap: 15 },
-                md: { showItems: 3, gap: 20 },
+                xs: { showItems: 1, gap: 8 },
+                sm: { showItems: 2, gap: 12 },
+                md: { showItems: 3, gap: 16 },
+                lg: { showItems: 3, gap: 20 },
               }}
               totalItems={teamMembers.length}
               name="team-showcase"
               ariaLabel="Team members carousel"
               infinite={false}
               autoplay
-              autoplayInterval={3000}
+              autoplayInterval={4000}
+              showIndicators={true}
             >
               {teamMembers.map((member) => (
                 <div
                   key={member.id}
                   style={{
                     background: "white",
-                    borderRadius: "15px",
-                    padding: "1.5rem",
+                    borderRadius: "12px",
+                    padding: "1.2rem",
                     textAlign: "center",
                     boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
                     color: "#333",
+                    minHeight: "200px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
                 >
                   <img
                     src={member.image}
                     alt={member.name}
+                    loading="lazy"
                     style={{
-                      width: "80px",
-                      height: "80px",
+                      width: "70px",
+                      height: "70px",
                       borderRadius: "50%",
-                      marginBottom: "1rem",
+                      marginBottom: "0.8rem",
                       objectFit: "cover",
+                      border: "3px solid #f8f9fa",
+                    }}
+                    onError={(e) => {
+                      e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=4ecdc4&color=fff&size=128`;
                     }}
                   />
-                  <h4 style={{ margin: "0 0 0.5rem 0", fontSize: "1.1rem" }}>
+                  <h4 style={{ 
+                    margin: "0 0 0.4rem 0", 
+                    fontSize: "1rem",
+                    fontWeight: "600",
+                    lineHeight: "1.3"
+                  }}>
                     {member.name}
                   </h4>
-                  <p style={{ margin: 0, color: "#666", fontSize: "0.9rem" }}>
+                  <p style={{ 
+                    margin: 0, 
+                    color: "#666", 
+                    fontSize: "0.85rem",
+                    lineHeight: "1.4"
+                  }}>
                     {member.role}
                   </p>
                 </div>
