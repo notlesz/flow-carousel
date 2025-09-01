@@ -51,9 +51,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "build:demo": "vite build --config vite.demo.config.ts",
     "build:watch": "vite build --watch",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
+    "preview:demo": "vite preview --config vite.demo.config.ts",
     "prepublishOnly": "npm run build",
     "test": "echo \"No tests specified\" && exit 0"
   },

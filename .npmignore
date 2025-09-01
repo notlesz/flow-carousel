@@ -31,6 +31,11 @@ node_modules/
 # Development configs
 .npmrc
 
+# Vercel and demo files  
+demo-dist/
+vercel.json
+vite.demo.config.ts
+
 # Exclude demo/landing page files from dist
 dist/App.d.ts
 dist/LandingPage.d.ts
