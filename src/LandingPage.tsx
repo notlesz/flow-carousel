@@ -106,7 +106,7 @@ const LandingPage = () => {
               🚀 See It In Action
             </button>
             <a
-              href="https://github.com/yourorg/flow-carousel"
+              href="https://github.com/notlesz/flow-carousel"
               className={`${styles.ctaButton} ${styles.secondary}`}
             >
               ⭐ Star on GitHub
