@@ -1,0 +1,82 @@
+// =============================================================================
+// VARIABLES - Design Tokens
+// =============================================================================
+
+// ----------------------------------------
+// Colors
+// ----------------------------------------
+:root {
+  // Carousel specific colors
+  --carousel-bg-overlay: rgba(0, 0, 0, 0.1);
+  --carousel-bg-overlay-hover: rgba(0, 0, 0, 0.2);
+  --carousel-bg-disabled: rgba(0, 0, 0, 0.05);
+  --carousel-text-primary: rgba(0, 0, 0, 0.7);
+  --carousel-text-disabled: rgba(0, 0, 0, 0.3);
+  --carousel-focus-color: #007bff;
+  --carousel-indicator-active: rgba(0, 0, 0, 0.8);
+  --carousel-indicator-inactive: rgba(0, 0, 0, 0.3);
+
+  // Mobile specific
+  --carousel-mobile-bg: rgba(0, 0, 0, 0.15);
+}
+
+// ----------------------------------------
+// Sizes & Spacing
+// ----------------------------------------
+:root {
+  // Spacing scale (8pt grid)
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 20px;
+  --space-xl: 24px;
+
+  // Carousel specific sizes
+  --carousel-gap: 20px;
+  --carousel-button-min-size: 32px;
+  --carousel-button-mobile-size: 44px;
+  --carousel-indicator-size: 8px;
+  --carousel-indicator-touch-target: 32px;
+  --carousel-indicator-mobile-target: 44px;
+
+  // Border radius
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-full: 50%;
+}
+
+// ----------------------------------------
+// Animation & Transitions
+// ----------------------------------------
+:root {
+  --transition-duration: 300ms;
+  --transition-easing: ease-in-out;
+  --transition-fast: 150ms ease-in-out;
+  --transition-slow: 500ms ease-in-out;
+
+  // Transform optimizations
+  --transform-acceleration: translateZ(0);
+}
+
+// ----------------------------------------
+// Breakpoints
+// ----------------------------------------
+$breakpoints: (
+  "xs": 480px,
+  "sm": 768px,
+  "md": 1024px,
+  "lg": 1440px,
+  "xl": 1920px,
+);
+
+// ----------------------------------------
+// Z-index scale
+// ----------------------------------------
+$z-layers: (
+  "base": 0,
+  "carousel": 1,
+  "buttons": 2,
+  "indicators": 3,
+  "modal": 100,
+);

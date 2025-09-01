@@ -1,0 +1,102 @@
+// =============================================================================
+// CAROUSEL INDICATORS - Component Styles
+// =============================================================================
+
+@use "../../../styles/abstracts" as *;
+
+.wrapper {
+  @include flex-center;
+  gap: clamp(6px, 1vw, 12px);
+  margin-top: clamp(12px, 2vw, 20px);
+  padding: var(--space-sm);
+  position: relative;
+  z-index: z("indicators");
+}
+
+.dot {
+  @include carousel-button-base;
+  @include carousel-transition;
+  @include touch-target(var(--carousel-indicator-touch-target));
+
+  border-radius: var(--border-radius-full);
+  position: relative;
+
+  // Default size
+  width: var(--carousel-indicator-size);
+  height: var(--carousel-indicator-size);
+
+  // Size variants
+  &[data-size] {
+    --dot-size: attr(data-size px, 8px);
+    width: var(--dot-size);
+    height: var(--dot-size);
+  }
+
+  // States
+  &[data-active="true"] {
+    background-color: var(--carousel-indicator-active);
+  }
+
+  &[data-active="false"] {
+    background-color: var(--carousel-indicator-inactive);
+  }
+
+  @include touch-device {
+    @include touch-target(var(--carousel-indicator-mobile-target));
+
+    &::before {
+      content: "";
+      @include absolute-center;
+      border-radius: var(--border-radius-full);
+      @include carousel-transition(all);
+
+      width: max(var(--carousel-indicator-size), 12px);
+      height: max(var(--carousel-indicator-size), 12px);
+    }
+
+    &[data-active="true"]::before {
+      background-color: var(--carousel-indicator-active);
+    }
+
+    &[data-active="false"]::before {
+      background-color: var(--carousel-indicator-inactive);
+    }
+  }
+
+  // Hover effects (only on capable devices)
+  @include hover-device {
+    &:hover {
+      @include scale-hover(1.2);
+
+      &[data-active="true"] {
+        background-color: rgba(0, 0, 0, 0.9);
+      }
+
+      &[data-active="false"] {
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      @include touch-device {
+        transform: none;
+
+        &::before {
+          transform: translate(-50%, -50%) scale(1.2);
+
+          &[data-active="true"] {
+            background-color: rgba(0, 0, 0, 0.9);
+          }
+
+          &[data-active="false"] {
+            background-color: rgba(0, 0, 0, 0.5);
+          }
+        }
+      }
+    }
+  }
+
+  // Responsive sizing
+  @include respond-to("sm") {
+    width: max(6px, calc(var(--carousel-indicator-size) * 0.8));
+    height: max(6px, calc(var(--carousel-indicator-size) * 0.8));
+  }
+}

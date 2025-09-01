@@ -1,0 +1,85 @@
+// =============================================================================
+// CAROUSEL BUTTON - Component Styles
+// =============================================================================
+
+@use "../../../styles/abstracts" as *;
+
+.button {
+  position: relative;
+  z-index: z("buttons");
+
+  @include carousel-button-base;
+  @include carousel-transition;
+  @include backdrop-blur(4px, 0.1);
+  @include scale-hover(1.05);
+  @include scale-active(0.95);
+
+  // Size calculation based on prop
+  &[data-size] {
+    --button-size: attr(data-size px, 40px);
+    --padding-size: max(8px, calc(var(--button-size) * 0.2));
+    --icon-size: max(16px, calc(var(--button-size) * 0.4));
+
+    padding: var(--padding-size);
+    min-width: var(--button-size);
+    min-height: var(--button-size);
+  }
+
+  @include touch-device {
+    min-width: var(--carousel-button-mobile-size);
+    min-height: var(--carousel-button-mobile-size);
+    background-color: var(--carousel-mobile-bg);
+  }
+
+  &:disabled {
+    background-color: var(--carousel-bg-disabled);
+
+    .icon {
+      opacity: 0.3;
+    }
+  }
+
+  @include hover-device {
+    &:hover:not(:disabled) {
+      background-color: var(--carousel-bg-overlay-hover);
+    }
+  }
+}
+
+.icon {
+  opacity: 1;
+  color: var(--carousel-text-primary);
+  @include carousel-transition(opacity);
+
+  // Default icon size
+  width: 16px;
+  height: 16px;
+
+  // Responsive icon sizing
+  @include respond-to("sm") {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+// Size variants using CSS custom properties
+.button[data-size="32"] .icon {
+  width: 13px;
+  height: 13px;
+}
+.button[data-size="36"] .icon {
+  width: 14px;
+  height: 14px;
+}
+.button[data-size="40"] .icon {
+  width: 16px;
+  height: 16px;
+}
+.button[data-size="44"] .icon {
+  width: 18px;
+  height: 18px;
+}
+.button[data-size="48"] .icon {
+  width: 19px;
+  height: 19px;
+}

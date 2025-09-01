@@ -1,0 +1,15 @@
+// =============================================================================
+// MAIN STYLESHEET - React Carousel
+// =============================================================================
+// Modern SCSS Architecture with CSS Modules
+// Follows ITCSS (Inverted Triangle CSS) methodology
+// =============================================================================
+
+// 1. ABSTRACTS - Variables, functions, mixins
+@use "abstracts";
+
+// 2. BASE - Resets and base styles
+@use "base";
+
+// Global carousel CSS variables are defined in abstracts/_variables.scss
+// Component-specific styles are in respective .module.scss files

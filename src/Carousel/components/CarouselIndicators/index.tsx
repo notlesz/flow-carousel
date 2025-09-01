@@ -1,4 +1,4 @@
-import { IndicatorDot, IndicatorsWrapper } from "./styles";
+import styles from "./CarouselIndicators.module.scss";
 import { CarouselIndicatorsProps } from "./types";
 
 export const CarouselIndicators = ({
@@ -10,15 +10,16 @@ export const CarouselIndicators = ({
   const totalPages = Math.ceil(totalItems / showItems);
 
   return (
-    <IndicatorsWrapper>
+    <div className={styles.wrapper}>
       {Array.from({ length: totalPages }).map((_, index) => (
-        <IndicatorDot
+        <button
           key={index}
-          active={index === currentIndex}
+          className={styles.dot}
+          data-active={index === currentIndex}
           onClick={() => onSelect(index)}
           aria-label={`Go to slide ${index + 1}`}
         />
       ))}
-    </IndicatorsWrapper>
+    </div>
   );
 };

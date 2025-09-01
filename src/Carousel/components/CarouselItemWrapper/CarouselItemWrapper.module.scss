@@ -1,0 +1,26 @@
+// =============================================================================
+// CAROUSEL ITEM WRAPPER - Component Styles
+// =============================================================================
+
+@use "../../../styles/abstracts" as *;
+
+.wrapper {
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  flex: 0 0 auto;
+
+  // Dynamic width via CSS custom property
+  &[data-width] {
+    --item-width: attr(data-width px, auto);
+    width: var(--item-width);
+    min-width: var(--item-width);
+    flex-basis: var(--item-width);
+  }
+
+  // Ensure content doesn't overflow
+  > * {
+    max-width: 100%;
+    overflow: hidden;
+  }
+}

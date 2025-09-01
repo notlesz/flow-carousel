@@ -1,0 +1,53 @@
+// =============================================================================
+// FUNCTIONS - SCSS Helper Functions
+// =============================================================================
+
+@use "sass:map";
+@use "./variables" as *;
+
+// ----------------------------------------
+// Z-index function
+// ----------------------------------------
+@function z($layer) {
+  @if map.has-key($z-layers, $layer) {
+    @return map.get($z-layers, $layer);
+  }
+  @warn "Unknown z-layer: #{$layer}";
+  @return 0;
+}
+
+// ----------------------------------------
+// Responsive size calculation
+// ----------------------------------------
+@function responsive-size($base-size, $min-size: null, $max-size: null) {
+  $calculated: clamp(
+    if($min-size, $min-size, $base-size * 0.8),
+    $base-size,
+    if($max-size, $max-size, $base-size * 1.2)
+  );
+  @return $calculated;
+}
+
+// ----------------------------------------
+// Touch target calculation
+// ----------------------------------------
+@function touch-size($size, $min-touch: 44px) {
+  @return max($size, $min-touch);
+}
+
+// ----------------------------------------
+// Fluid typography
+// ----------------------------------------
+@function fluid-size(
+  $min-size,
+  $max-size,
+  $min-screen: 320px,
+  $max-screen: 1200px
+) {
+  @return clamp(
+    $min-size,
+    $min-size + ($max-size - $min-size) *
+      ((100vw - $min-screen) / ($max-screen - $min-screen)),
+    $max-size
+  );
+}

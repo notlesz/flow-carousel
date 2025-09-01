@@ -1,0 +1,54 @@
+// =============================================================================
+// CAROUSEL CONTAINER - Component Styles
+// =============================================================================
+
+@use "../../../styles/abstracts" as *;
+
+.container {
+  position: relative;
+  z-index: z("carousel");
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  @include smooth-scroll;
+
+  // Dynamic width
+  width: 100%;
+  max-width: 100%;
+
+  &[data-width] {
+    --container-width: attr(data-width px, 100%);
+    width: var(--container-width);
+  }
+
+  // Cursor states
+  &[data-dragging="false"] {
+    cursor: grab;
+  }
+
+  &[data-dragging="true"] {
+    cursor: grabbing;
+  }
+
+  @include touch-device {
+    touch-action: pan-y;
+  }
+}
+
+.content {
+  display: flex;
+  gap: var(--carousel-gap);
+  @include gpu-acceleration;
+
+  // Transform based on position
+  &[data-dragging="false"] {
+    transition: transform var(--transition-duration) var(--transition-easing);
+  }
+
+  &[data-dragging="true"] {
+    transition: none;
+  }
+
+  // Transform will be set via inline styles for performance
+  // transform: translateX(calc(-1 * var(--dislocate, 0px) + var(--drag-offset, 0px)));
+}

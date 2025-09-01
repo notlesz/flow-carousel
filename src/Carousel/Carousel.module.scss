@@ -1,0 +1,29 @@
+// =============================================================================
+// CAROUSEL - Main Component Styles
+// =============================================================================
+
+@use "../styles/abstracts" as *;
+
+.wrapper {
+  @include flex-center;
+  gap: var(--space-md);
+  position: relative;
+
+  // Ensure proper stacking context
+  z-index: z("base");
+
+  // Base carousel styling
+  width: 100%;
+
+  // Loading state
+  &[data-loading="true"] {
+    @include flex-center;
+    min-height: 200px;
+    color: var(--carousel-text-primary);
+    font-size: 14px;
+
+    &::before {
+      content: "Loading...";
+    }
+  }
+}

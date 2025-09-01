@@ -1,5 +1,5 @@
 export interface CarouselContainerProps {
-  width: number | string;
+  width?: number | string;
   dislocate: number;
   dragOffset: number;
   isDragging: boolean;

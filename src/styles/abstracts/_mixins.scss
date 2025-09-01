@@ -1,0 +1,158 @@
+// =============================================================================
+// MIXINS - Reusable CSS Functions
+// =============================================================================
+
+// ----------------------------------------
+// Media Queries
+// ----------------------------------------
+@use "sass:map";
+@use "./variables" as *;
+
+@mixin respond-to($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    $value: map.get($breakpoints, $breakpoint);
+    @media screen and (max-width: $value) {
+      @content;
+    }
+  } @else {
+    @warn "Unknown breakpoint: #{$breakpoint}";
+  }
+}
+
+@mixin respond-above($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    $value: map.get($breakpoints, $breakpoint);
+    @media screen and (min-width: #{$value + 1px}) {
+      @content;
+    }
+  } @else {
+    @warn "Unknown breakpoint: #{$breakpoint}";
+  }
+}
+
+// Mobile-first approach
+@mixin touch-device {
+  @media (pointer: coarse) {
+    @content;
+  }
+}
+
+@mixin hover-device {
+  @media (hover: hover) and (pointer: fine) {
+    @content;
+  }
+}
+
+// ----------------------------------------
+// Touch Targets
+// ----------------------------------------
+@mixin touch-target($min-size: 44px) {
+  min-width: $min-size;
+  min-height: $min-size;
+  position: relative;
+}
+
+@mixin touch-target-pseudo($size: 44px) {
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: $size;
+    min-height: $size;
+  }
+}
+
+// ----------------------------------------
+// Focus States
+// ----------------------------------------
+@mixin focus-visible($color: var(--carousel-focus-color), $offset: 2px) {
+  &:focus-visible {
+    outline: 2px solid $color;
+    outline-offset: $offset;
+  }
+}
+
+// ----------------------------------------
+// Performance Optimizations
+// ----------------------------------------
+@mixin gpu-acceleration {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  will-change: transform;
+}
+
+@mixin smooth-scroll {
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y pinch-zoom;
+}
+
+// ----------------------------------------
+// Carousel Specific
+// ----------------------------------------
+@mixin carousel-button-base {
+  border: none;
+  border-radius: var(--border-radius-full);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+
+  @include focus-visible();
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+@mixin carousel-transition($property: all) {
+  transition: $property var(--transition-duration) var(--transition-easing);
+}
+
+// ----------------------------------------
+// Layout Utilities
+// ----------------------------------------
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// ----------------------------------------
+// Visual Effects
+// ----------------------------------------
+@mixin backdrop-blur($blur: 4px, $opacity: 0.1) {
+  background-color: rgba(0, 0, 0, $opacity);
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+}
+
+@mixin scale-hover($scale: 1.05) {
+  @include hover-device {
+    &:hover:not(:disabled) {
+      transform: scale($scale);
+    }
+  }
+}
+
+@mixin scale-active($scale: 0.95) {
+  &:active:not(:disabled) {
+    transform: scale($scale);
+  }
+}

@@ -3,4 +3,6 @@ export interface CarouselButtonProps {
   onClick: () => void;
   disabled: boolean;
   icon?: React.ReactNode;
+  size?: number;
+  ariaLabel?: string;
 }
