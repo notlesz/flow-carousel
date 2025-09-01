@@ -1,7 +1,7 @@
 {
   "name": "flow-carousel",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "🎠 FlowCarousel - Where performance flows naturally. A next-generation React carousel with intelligent infinite mode, 60fps performance, and automatic responsiveness.",
   "keywords": [
