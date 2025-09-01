@@ -1,0 +1,44 @@
+# Source files
+src/
+examples/
+
+# Development files
+.vscode/
+.idea/
+*.log
+*.tgz
+.DS_Store
+Thumbs.db
+
+# Build tools
+vite.config.ts
+tsconfig.json
+tsconfig.node.json
+.eslintrc.js
+.eslintrc.json
+
+# Documentation (development)
+IMPROVEMENTS.md
+SCSS_MIGRATION.md
+
+# Git
+.git/
+.gitignore
+
+# Dependencies
+node_modules/
+
+# Development configs
+.npmrc
+
+# Exclude demo/landing page files from dist
+dist/App.d.ts
+dist/LandingPage.d.ts
+dist/main.d.ts
+
+# Keep only production files
+!dist/flow-carousel.*
+!dist/index.d.ts
+!dist/Carousel/
+!dist/constants/
+!dist/utils/
